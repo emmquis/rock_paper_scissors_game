@@ -3,45 +3,76 @@
 <head>
     <meta charset="utf-8">
     <title>Rock Paper Scissors Game!</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>Rock Paper Scissors!</h1> 
+    <h5>best to 5</h5>
+    <h3>Please choose:</h3>
+    <div id="selection">  
+        <button id="rock" class="btn">Rock</button>
+        <button id="paper" class="btn">Paper</button>
+        <button id="scissors" class="btn">Scissors</button>
+    </div>
+
+    <p>The computer picks: </p>
+    <p id="cchoice">...</p>
+    <br>
+    <p id="outcome">Round Outcome...</p>
+
+    <div id="result">
+        <table>
+            <tr>
+                <th>Player Score</th>
+                <th>Computer Score</th>
+            </tr>
+            <t>
+                <td id="pscore">Score 1</td>
+                <td id="cscore">Score 2</td>
+            </t>
+        </table>
+
+    </div>
+
+    <p id="winner">The winner is...</p>
+
     <script>
         var playerScore = 0;
         var computerScore = 0;
 
         function playRound(playerSelection, computerSelection) {
             if(playerSelection == computerSelection) {
-                return "Tie, no one wins!";
+                return "Tie, no one wins this round!";
             }
             else if(playerSelection == "rock" && computerSelection == "paper")
             {
                 computerScore++;
-                return "You Lose! Paper beats Rock";
+                return "You Lose this round! Paper beats Rock";
             }
             else if(playerSelection == "rock" && computerSelection == "scissors")
             {
                 playerScore++;
-                return "You Win! Rock beats Scissors";
+                return "You Win this round! Rock beats Scissors";
             }
             else if(playerSelection == "paper" && computerSelection == "scissors")
             {
                 computerScore++;
-                return "You Lose! Scissors beats Paper";
+                return "You Lose this round! Scissors beats Paper";
             }
             else if(playerSelection == "paper" && computerSelection == "rock")
             {
                 playerScore++;
-                return "You Win! Paper beats Rock"
+                return "You Win this round! Paper beats Rock"
             }
             else if(playerSelection == "scissors" && computerSelection == "paper")
             {
                 playerScore++;
-                return "You Win! Scissors beats Paper"
+                return "You Win this round! Scissors beats Paper"
             }
             else if(playerSelection == "scissors" && computerSelection == "rock")
             {
                 computerScore++;
-                return "You Lose! Rock beats Scissors"
+                return "You Lose this round! Rock beats Scissors"
             }
         }
 
@@ -57,29 +88,46 @@
                 return "scissors";
             }
         }
+        
+        
+        function game() { 
+            const buttons = document.querySelectorAll('button');
 
-        function game() {  
-            const playerSelection = prompt("Choose Rock, Paper, or Scissors!", "rock").toLowerCase();
-            const computerSelection = computerPlay();
-            console.log("The computer picks " + computerSelection);
-            console.log(playRound(playerSelection, computerSelection));
+            buttons.forEach((button) => {
+                button.addEventListener('click', (e) => {
+                    const playerSelection = button.id;
+
+                    const computerSelection = computerPlay();
+                    document.getElementById('cchoice').innerHTML = computerSelection;
+                  
+                    var winLose = playRound(playerSelection, computerSelection);
+                    document.getElementById('outcome').innerHTML = winLose;
+
+                    document.getElementById('pscore').innerHTML = playerScore;
+                    document.getElementById('cscore').innerHTML = computerScore;
+
+                    if(playerScore == 5) {
+                        playerScore = 0;
+                        computerScore = 0;
+                        document.getElementById('winner').innerHTML = "YOU WIN!";
+                    }
+                    else if(computerScore == 5) {
+                        
+                        playerScore = 0;
+                        computerScore = 0;
+                        document.getElementById('winner').innerHTML = "The Computer Wins!";
+                    }
+                    else {
+                        document.getElementById('winner').innerHTML = "The winner is...";
+                    }
+                    
+                });
+            });
+            
         }
 
-        var start = 0;
-        while(start < 5) {
-            game();
-            start++;
-        }
-        if(playerScore < computerScore) {
-            console.log("YOU LOSE!");
-        }
-        else if(playerScore > computerScore) {
-            console.log("YOU WIN!");
-        }
-        else {
-            console.log("ITS A TIE!");
-        }
-    
+        game();
+ 
 
     </script> 
 </body>
